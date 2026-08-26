@@ -6,14 +6,19 @@ else
 	FILTER = 
 endif
 
+# --- ЦІЛІ ДЛЯ ОСНОВНОГО ПРОЄКТУ (P-BrakeIndicator) ---
 upload:
-	(platformio run --target upload) $(FILTER)
+	(platformio run --target upload -e brake_indicator) $(FILTER)
 
 build:
-	(platformio run) $(FILTER)
+	(platformio run -e brake_indicator) $(FILTER)
 
-upload-blink:
+# --- ЦІЛІ ДЛЯ ТЕСТУВАННЯ ЗАЛІЗА (Blink) ---
+upload-test:
 	(platformio run --target upload -e blink_test) $(FILTER)
+
+build-test:
+	(platformio run -e blink_test) $(FILTER)
 
 clean:
 	platformio run --target clean
