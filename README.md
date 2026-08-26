@@ -120,12 +120,24 @@ upload_port = /dev/ttyUSB0
 
 ---
 
-## 📝 Базовий скетч (Blink.ino)
+## 📝 Базовий скетч (`src/main.cpp`) та Тестова Схема
 
-У коді використовується **цифровий пін 0**, що фізично відповідає **ніжці 2 (PA6)** мікроконтролера ATtiny202.
+У коді для PlatformIO обов'язково підключається заголовок `<Arduino.h>`, а піни задаються через системні константи. Для цього тесту світлодіод підключається до порту **PA3**, що фізично відповідає **ніжці 7** мікроконтролера ATtiny202.
+
+Схема підключення світлодіода для перевірки працездатності:
+
+<p align="center">
+  <img src="img/arduino-updi-blink-method-720x374.png" alt="ATtiny202 LED Connection Diagram" width="65%" />
+</p>
+
+### Код програми (`src/main.cpp`)
 
 ```cpp
-const int LED_PIN = 0; // Фізична ніжка 2 (PA6)
+#include <Arduino.h>
+
+// Для ATtiny202 в PlatformIO піни позначаються через PIN_PA6, PIN_PA7 тощо.
+// Фізична ніжка 7 чіпа — це порт PA3.
+const uint8_t LED_PIN = PIN_PA3; 
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
@@ -138,6 +150,14 @@ void loop() {
   delay(1000);
 }
 ```
+
+### Результат роботи
+
+Після успішного завантаження програми світлодіод почне блимати з інтервалом в одну секунду, як показано на зображенні:
+
+<p align="center">
+  <img src="img/attiny202-blink-result-720x480.jpg" alt="ATtiny202 Blink Result" width="65%" />
+</p>
 
 ---
 

@@ -1,8 +1,8 @@
 #include <Arduino.h>
 
 // Для ATtiny202 в PlatformIO піни позначаються через PIN_PA6, PIN_PA7 тощо.
-// Фізична ніжка 2 чіпа — це порт PA6.
-const uint8_t LED_PIN = PIN_PA6; 
+// Фізична ніжка 7 чіпа — це порт PA3.
+const uint8_t LED_PIN = PIN_PA3; 
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
