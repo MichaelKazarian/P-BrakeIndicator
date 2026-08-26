@@ -58,7 +58,13 @@ USB-UART HL-340                       ATtiny202 (SOIC-8)
 Застарілий метод прошивки через `jtag2updi` більше **не працює**, тому конфігурація налаштована на пряме програмування через інтерфейс **SerialUPDI**.
 
 ### 1. Конфігурація `platformio.ini`
-Ініціалізація проекту відбувається за допомогою виклика
+Рекомендованим способом ініціалізувати проект є виклик
+
+``` shell
+make init
+```
+
+або вручну
 
 ``` shell
 platformio project init --ide emacs --board ATtiny202 \
@@ -70,12 +76,22 @@ platformio project init --ide emacs --board ATtiny202 \
 # Автоматичне визначення або ручний вибір порту (за потреби розкоментуйте рядок вище)
 ```
 
-або викликом
+Цей виклик згенерує структуру проекту і файл налаштувань `platformio.ini`. Додайте в кінець ці рядки:
 
-``` shell
-make init
+``` ini
+; Automatic detection or manual port selection (uncomment if needed)
+; upload_port = /dev/ttyUSB0
+
+[env:brake_indicator]
+extends = env:ATtiny202
+src_filter = +<brake_indicator.c> -<blink_test.c>
+
+[env:blink_test]
+extends = env:ATtiny202
+src_filter = +<blink_test.c> -<brake_indicator.c>
 ```
-Після ініціалізації проєкту файл налаштувань має містити параметри частоти, фіксованого порту та зниженої швидкості завантаження (`57600`), яка є критичною для стабільної роботи старого китайського чіпа HL-340:
+
+Після ініціалізації проєкту файл налаштувань має містити параметри частоти, фіксованого порту та зниженої швидкості завантаження (`57600`), яка є критичною для стабільної роботи старого китайського чіпа HL-340 та профілі прошивки `brake_indicator` та `blink_test`:
 
 ```ini
 [env:attiny202]
@@ -85,15 +101,26 @@ framework = arduino
 board_build.f_cpu = 16000000L
 upload_protocol = serialupdi
 upload_speed = 57600
-upload_port = /dev/ttyUSB0
+
+; Automatic detection or manual port selection (uncomment if needed)
+; upload_port = /dev/ttyUSB0
+
+[env:brake_indicator]
+extends = env:ATtiny202
+src_filter = +<brake_indicator.c> -<blink_test.c>
+
+[env:blink_test]
+extends = env:ATtiny202
+src_filter = +<blink_test.c> -<brake_indicator.c>
 ```
 
 ### 2. Керування проєктом через Makefile
 Для швидкої збірки та прошивки безпосередньо з робочого оточення використовується дворівнева структура `Makefile`. Головний файл у корені проєкту автоматизує основні команди:
 
 * `make init` — ініціалізує чистий проєкт для архітектури ATtiny202 з усіма необхідними параметрами прошивки та створює конфігурацію для Emacs.
-* `make build` — компілює код програми.
+* `make build` — компілює основний код програми (`brake_indicator.c`).
 * `make upload` — прошиває мікроконтролер через підключений адаптер HL-340.
+* `make upload-blink` — прошиває тестовий код блінка (`blink_test.c`) для перевірки заліза.
 * `make clean` — очищає тимчасові файли збірки.
 * `make monitor` — запускає монітор послідовного порту.
 
@@ -120,7 +147,7 @@ upload_port = /dev/ttyUSB0
 
 ---
 
-## 📝 Базовий скетч (`src/main.cpp`) та Тестова Схема
+## 📝 Тестовий скетч
 
 У коді для PlatformIO обов'язково підключається заголовок `<Arduino.h>`, а піни задаються через системні константи. Для цього тесту світлодіод підключається до порту **PA3**, що фізично відповідає **ніжці 7** мікроконтролера ATtiny202.
 
@@ -130,9 +157,9 @@ upload_port = /dev/ttyUSB0
   <img src="img/arduino-updi-blink-method-720x374.png" alt="ATtiny202 LED Connection Diagram" width="65%" />
 </p>
 
-### Код програми (`src/main.cpp`)
+### Код програми (`src/blink_test.c`)
 
-```cpp
+```c
 #include <Arduino.h>
 
 // Для ATtiny202 в PlatformIO піни позначаються через PIN_PA6, PIN_PA7 тощо.
