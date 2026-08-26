@@ -20,4 +20,7 @@
 #define NOTE_G6_HALF_PERIOD 319  // 1567 Гц -> повний період 638 мкс (напівперіод 319 мкс)
 #define NOTE_B6_HALF_PERIOD 253  // 1975 Гц -> повний період 506 мкс (напівперіод 253 мкс)
 
+void playWarningMelody(void);
+void playTone(uint16_t halfPeriodUs, uint16_t durationMs);
+
 #endif // BRAKE_INDICATOR_H

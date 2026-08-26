@@ -4,43 +4,38 @@
 unsigned long handbrakeTimer = 0;
 bool isBraking = false;
 
-// Прототипи функцій
-void playWarningMelody(void);
-void playToneManually(uint16_t half_period_us, uint16_t duration_ms);
-
 void setup(void) {
   pinMode(SENSOR_DIGITAL, INPUT_PULLUP);
   pinMode(SPEAKER_PIN, OUTPUT);
   pinMode(LED_PIN, OUTPUT);
 }
 
-// Кастомна заміна функції tone()
-void playToneManually(uint16_t half_period_us, uint16_t duration_ms) {
-  // Розраховуємо кількість циклів коливання для заданої тривалості
-  // Сумарний час одного циклу = half_period_us * 2 мкс
-  uint32_t total_cycles = ((uint32_t)duration_ms * 500) / half_period_us;
-  
-  //digitalWrite(LED_PIN, HIGH);
-  for (uint32_t i = 0; i < total_cycles; i++) {
+// Відтворює тон із заданим напівперіодом (мкс) протягом durationMs
+void playTone(uint16_t halfPeriodUs, uint16_t durationMs) {
+  uint32_t cyclesTotalUs = (uint32_t)durationMs * 1000UL;
+  uint32_t elapsedUs = 0;
+
+  digitalWrite(LED_PIN, HIGH);
+  while (elapsedUs < cyclesTotalUs) {
     digitalWrite(SPEAKER_PIN, HIGH);
-    delayMicroseconds(half_period_us);
+    delayMicroseconds(halfPeriodUs);
     digitalWrite(SPEAKER_PIN, LOW);
-    delayMicroseconds(half_period_us);
+    delayMicroseconds(halfPeriodUs);
+    elapsedUs += (uint32_t)halfPeriodUs * 2;
   }
-  //digitalWrite(LED_PIN, LOW);
+  digitalWrite(LED_PIN, LOW);
 }
 
+// Функція відтворення послідовності нот
 void playWarningMelody(void) {
-  // 1. Мі6
-  playToneManually(NOTE_E6_HALF_PERIOD, NOTE_DURATION);
+  // 1. Мі6 (E6)
+  playTone(NOTE_E6_HALF_PERIOD, NOTE_DURATION);
   delay(NOTE_PAUSE);
-  
-  // 2. Соль6
-  playToneManually(NOTE_G6_HALF_PERIOD, NOTE_DURATION);
+  // 2. Соль6 (G6)
+  playTone(NOTE_G6_HALF_PERIOD, NOTE_DURATION);
   delay(NOTE_PAUSE);
-  
-  // 3. Сі6
-  playToneManually(NOTE_B6_HALF_PERIOD, NOTE_DURATION);
+  // 3. Сі6 (B6)
+  playTone(NOTE_B6_HALF_PERIOD, NOTE_DURATION);
 }
 
 void loop(void) {
@@ -53,7 +48,6 @@ void loop(void) {
       handbrakeTimer = millis(); 
       isBraking = true;
     }
-
     if (millis() - handbrakeTimer > DELAY_BEFORE_START) {
       playWarningMelody();
       delay(DELAY_BETWEEN_ALER_CYCLES); 
