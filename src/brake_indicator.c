@@ -10,7 +10,6 @@ void setup(void) {
   pinMode(LED_PIN, OUTPUT);
 }
 
-// Відтворює тон із заданим напівперіодом (мкс) протягом durationMs
 void playTone(uint16_t halfPeriodUs, uint16_t durationMs) {
   uint32_t cyclesTotalUs = (uint32_t)durationMs * 1000UL;
   uint32_t elapsedUs = 0;
@@ -26,20 +25,13 @@ void playTone(uint16_t halfPeriodUs, uint16_t durationMs) {
   digitalWrite(LED_PIN, LOW);
 }
 
-// Функція відтворення послідовності нот
 void playWarningMelody(void) {
-  // 1. Мі6 (E6)
-  playTone(NOTE_E6_HALF_PERIOD, NOTE_DURATION);
-  delay(NOTE_PAUSE);
-  // 2. Соль6 (G6)
-  playTone(NOTE_G6_HALF_PERIOD, NOTE_DURATION);
-  delay(NOTE_PAUSE);
-  // 3. Сі6 (B6)
-  playTone(NOTE_B6_HALF_PERIOD, NOTE_DURATION);
+  playTone(NOTE_E6_HALF_PERIOD, NOTE_DURATION); delay(NOTE_PAUSE); // E6 (Мі6)
+  playTone(NOTE_G6_HALF_PERIOD, NOTE_DURATION); delay(NOTE_PAUSE); // G6 (Соль6)
+  playTone(NOTE_B6_HALF_PERIOD, NOTE_DURATION); // B6 (Сі6)
 }
 
 void loop(void) {
-  // Читаємо стан ручника (HIGH означає активний ручник)
   bool handbrakeActive = (digitalRead(SENSOR_DIGITAL) == LOW);
 
   if (handbrakeActive) {
