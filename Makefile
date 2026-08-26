@@ -24,6 +24,6 @@ init:
 		--project-option "board_build.f_cpu=16000000L" \
 		--project-option "upload_protocol=serialupdi" \
 		--project-option "upload_speed=57600" \
-		--project-option "upload_port=/dev/ttyUSB0"
-
+# 		--project-option "upload_port=/dev/ttyUSB0"
+# Auto-detected by default; uncomment the previous line if you need a manual port
 
