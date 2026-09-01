@@ -65,3 +65,4 @@ lib/
 TAGS
 
 hardware/.history/
+*.lck
