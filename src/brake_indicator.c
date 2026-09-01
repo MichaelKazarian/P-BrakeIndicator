@@ -32,7 +32,7 @@ void playWarningMelody(void) {
 }
 
 void loop(void) {
-  bool handbrakeActive = (digitalRead(SENSOR_DIGITAL) == LOW);
+  bool handbrakeActive = (digitalRead(SENSOR_DIGITAL) == HIGH);
 
   if (handbrakeActive) {
     digitalWrite(LED_PIN, HIGH);

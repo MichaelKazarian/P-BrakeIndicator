@@ -4,8 +4,8 @@
 #include <Arduino.h>
 
 // --- Pin configuration for ATtiny202 ---
-#define SENSOR_DIGITAL PIN_PA1
-#define SENSOR_ANALOG  PIN_PA2
+#define SENSOR_DIGITAL PIN_PA2
+#define SENSOR_ANALOG  PIN_PA1
 #define SPEAKER_PIN    PIN_PA3
 #define LED_PIN        PIN_PA6
 
