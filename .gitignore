@@ -63,3 +63,5 @@ dkms.conf
 include/
 lib/
 TAGS
+
+hardware/.history/
