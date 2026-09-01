@@ -2095,7 +2095,7 @@
 				)
 			)
 		)
-		(property "Value" "10 Omh"
+		(property "Value" "10.Om"
 			(at 163.068 65.532 90)
 			(show_name no)
 			(do_not_autoplace no)
