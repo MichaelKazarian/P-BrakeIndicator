@@ -39,9 +39,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.8,
-          "height": 1.27,
-          "width": 1.27
+          "drill": 0.7,
+          "height": 1.4,
+          "width": 1.4
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -446,7 +446,7 @@
       "endpoint_off_grid": "warning",
       "extra_units": "error",
       "field_name_whitespace": "warning",
-      "footprint_filter": "ignore",
+      "footprint_filter": "error",
       "footprint_link_issues": "warning",
       "four_way_junction": "warning",
       "ground_pin_not_ground": "warning",
@@ -679,7 +679,7 @@
         "uuid": "d993378a-51bc-4462-a271-51ad480b7f78"
       }
     ],
-    "used_designators": "J4",
+    "used_designators": "#FLG2-4,F1,#PWR3-4,R5,R7-8,C1-2,D2-5,J4",
     "variants": []
   },
   "sheets": [
